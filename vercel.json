@@ -1,0 +1,1 @@
+{"cleanUrls":false,"rewrites":[{"source":"/","destination":"/api/page"},{"source":"/index.html","destination":"/api/page"},{"source":"/offline.html","destination":"/api/page?offline=1"}],"functions":{"api/page.js":{"includeFiles":"base*.html"},"api/media.js":{"maxDuration":30}}}

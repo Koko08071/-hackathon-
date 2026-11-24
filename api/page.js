@@ -1,0 +1,6 @@
+const old=require("../lib/page-v15.js");const fixes={"电小二":{"n":"SOLIX Autopilot","h":0,"title":"智能能源管家","desc":"电小二团队开发的智能能源管理应用，面向 SOLIX 阳台光储场景。"},"俺磕一下":{"n":"Lookbuddy","h":0,"title":"桌面办公搭子","desc":"俺磕一下团队开发的桌面办公辅助应用，面向 eufy 摄像头场景。"},"LoopMaster":{"n":"赛博业务员","h":1,"title":"智能售货机器人系统","desc":"LoopMaster 团队开发的智能售货机器人系统，获得探月计划 Physical AI 黑客松总冠军。","u":"https://www.jingjiribao.cn/static/detail.jsp?id=669274"},"水下全景 Cameraman":{"h":1,"title":"水下全景摄影机器人","desc":"Project Remo 团队将全景相机与自研水下平台结合，实现水下跟拍原型。"}};
+module.exports=async(req,res)=>{let html="",status=200;await old(req,{setHeader(){return this},status(n){status=n;return this},send(s){html=s;return this}});if(typeof html!=="string"||!html.includes("</html>"))return res.status(status>=400?status:500).send(html||"页面生成失败");
+let changes=0;html=html.replace(/D\.push\(\.\.\.(\[[\s\S]*?\])\);let region=/,(all,json)=>{const rows=JSON.parse(json);for(const p of rows){if(Object.hasOwn(fixes,p.n)){Object.assign(p,fixes[p.n]);changes++}}return "D.push(..."+JSON.stringify(rows)+");let region="});
+if(changes!==4)return res.status(500).send("分类数据校验失败");
+html=html.replace("<b>17</b><small>硬件","<b>19</b><small>硬件");
+res.setHeader("Content-Type","text/html; charset=utf-8");res.setHeader("Cache-Control","public,max-age=0,s-maxage=60,must-revalidate");return res.status(status).send(html)};
